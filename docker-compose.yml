@@ -1,0 +1,9 @@
+version: '2'
+services:
+  backend:
+    build: ./src/ 
+    tty: true
+    volumes:
+      - './src/:/usr/src/app/'
+    ports:
+      - '8080:8000'
