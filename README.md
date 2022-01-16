@@ -38,3 +38,9 @@ Advantages of HLS
 [express](https://www.npmjs.com/package/express) Fast, unopinionated, minimalist web framework for node.
 
 [HTTP Live Streaming](https://developer.apple.com/documentation/http_live_streaming) HTTP Live Streaming
+
+
+## Screenshots
+
+![App Screenshot](https://github.com/metinagaoglu/NodeJS-http-hls-example/blob/main/images/Screenshot-video-example.png?raw=true)
+

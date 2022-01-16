@@ -3,10 +3,9 @@ const fs = require('fs');
 const hls = require('hls-server');
 
 app.get('/', (req,res) => {
-    return res.status(200).sendFile(`${__dirname}/view/index.html`);
+    return res.status(200).sendFile(`${__dirname}/examples/index.html`);
 });
 
-//TODO: enviroment variable integration
 const server = app.listen(8000);
 
 new hls(server, {
