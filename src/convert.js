@@ -1,11 +1,16 @@
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
-const storage = require('./storage/minio');
+const storageService = require('./storage/minio');
 const fs = require('fs');
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-let filename = 'example2';
+let filename = 'sample';
+let outputFolder = "./videos/"+filename;
+
+if (!fs.existsSync(outputFolder)){
+    fs.mkdirSync(outputFolder);
+}
 
 ffmpeg('videos/'+filename+'.mp4',{ timeout: 40000 }).addOptions([
     '-profile:v baseline',
@@ -15,21 +20,37 @@ ffmpeg('videos/'+filename+'.mp4',{ timeout: 40000 }).addOptions([
     '-hls_list_size 0',
     '-f hls' // it should be ‘hls’.
 ])
-.output("videos/"+filename+"/"+filename+".output.m3u8")
+.output(outputFolder+"/"+filename+".output.m3u8")
 .on('end', () => {
-    fs.readdir("videos/"+filename,(err,files) => {
+    fs.readdir(outputFolder,(err,files) => {
+
         //handling error
         if (err) {
-            return console.log('Unable to scan directory: ' + err);
+            return console.log('Unable to scan directory: ' + err.code);
         }
 
         //listing all files using forEach
         files.forEach(function (file) {
             // Do whatever you want to do with the file
             console.log(file);
-            storage.uploadFile(file,"videos/"+filename+"/"+file);
-            //TODO: remove after upload
+            storageService.uploadFile(file,outputFolder+"/"+file)
+                .then((fileInfo) => {
+                    fs.rmSync(outputFolder,{ recursive: true },() => {
+                        console.log("Removed");
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         });
 
     });
-}).run();
+})
+.on('error', function (err, stdout, stderr) {
+        if (err) {
+            console.log(err.message);
+            console.log("stdout:\n" + stdout);
+            console.log("stderr:\n" + stderr);
+        }
+    })
+.run();

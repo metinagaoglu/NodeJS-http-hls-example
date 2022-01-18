@@ -16,20 +16,23 @@ function listBucket() {
     })
 }
 
-function uploadFile(filename, file, callback) {
+function uploadFile(filename, file) {
 
-    let fileStream = fs.createReadStream(file)
-    fs.stat(file, (err, stats) => {
-        if (err) {
-            return console.log(err)
-        }
-        minioClient.putObject('videobucket', filename, fileStream, stats.size, (err, objInfo) => {
+    return new Promise((resolve, reject) => {
+        let fileStream = fs.createReadStream(file)
+
+        fs.stat(file, (err, stats) => {
             if (err) {
-                callback(err, null)
+                reject(err.code);
             }
-            callback(null, objInfo)
+            minioClient.putObject('videobucket', filename, fileStream, stats.size, (err, objInfo) => {
+                if (err) {
+                    reject(err.code);
+                }
+                resolve(objInfo);
+            })
         })
-    })
+    });
 
 }
 
@@ -47,6 +50,7 @@ function existsFile(filename) {
 }
 
 function getFile(filename) {
+
     return new Promise((resolve, reject) => {
         minioClient.getObject('videobucket', filename, (err, dataStream) => {
             if (err) {
@@ -59,22 +63,27 @@ function getFile(filename) {
 }
 
 function listFilesByBucket(bucket) {
-    var data = []
-    var stream = minioClient.listObjects(bucket, '', true)
-    stream.on('data', function (obj) {
-        data.push(obj)
-    })
-    stream.on("end", function (obj) {
-        console.log(data)
-    })
-    stream.on('error', function (err) {
-        console.log(err)
-    })
+
+    return new Promise((resolve, reject) => {
+        var data = []
+        var stream = minioClient.listObjects(bucket, '', true)
+        stream.on('data', function (obj) {
+            data.push(obj)
+        })
+        stream.on("end", function (obj) {
+            resolve(data);
+        })
+        stream.on('error', function (err) {
+            reject(err);
+        })
+    });
+
 }
 
 
 module.exports = {
     uploadFile,
     existsFile,
-    getFile
+    getFile,
+    listFilesByBucket
 };
