@@ -24,11 +24,15 @@ Advantages of HLS
 
 **Server:** NodeJS, Express, FFmpeg
 
+**Storage:**  MinIO
+
 **NPM Packages** 
 - @ffmpeg-installer/ffmpeg
 - fluent-ffmpeg
 - Express
 - hls-server
+
+
 ## Documentation
 
 [Fluent ffmpeg](https://www.npmjs.com/package/fluent-ffmpeg) Fluent ffmpeg-API for node.js Build Status
