@@ -1,6 +1,7 @@
 const app = require('express')();
 const storageService = require('./storage/minio');
 const hls_server = require('./hls/hls-server');
+const db = require('./database/connection')();
 
 app.get('/', (req,res) => {
     return res.status(200).sendFile(`${__dirname}/view/index.html`);

@@ -8,18 +8,27 @@ services:
     ports:
       - '8080:8000'
     environment:
+      MONGO_HOST: db
       MINIO_ENDPOINT: s3
       MINIO_ACCESS_KEY: minio_access_key
       MINIO_SECRET_KEY: minio_secret_key
       MINIO_PORT: 9000
+    depends_on:
+      - "db"
+      - "s3"
   s3:
     image: minio/minio
     tty: true
     ports:
-      - "9000:9000"
+      - '9000:9000'
     volumes:
-      - ./build/minio/data:/data
+      - './build/minio/data:/data'
     environment:
       MINIO_ACCESS_KEY: minio_access_key
       MINIO_SECRET_KEY: minio_secret_key
-    command: server --address 0.0.0.0:9000 /data
+    command: 'server --address 0.0.0.0:9000 /data'
+  db:
+    image: mongo
+    ports:
+      - '27017:27017'
+    tty: true
