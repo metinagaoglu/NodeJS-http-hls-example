@@ -24,6 +24,8 @@ Advantages of HLS
 
 **Server:** NodeJS, Express, FFmpeg
 
+**Database:** MongoDB
+
 **Storage:**  MinIO
 
 **NPM Packages** 

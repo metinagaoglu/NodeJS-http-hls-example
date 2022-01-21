@@ -9,6 +9,8 @@ services:
       - '8080:8000'
     environment:
       MONGO_HOST: db
+      MONGO_PORT: 27017
+      MONGO_DATABASE: videohlsexample
       MINIO_ENDPOINT: s3
       MINIO_ACCESS_KEY: minio_access_key
       MINIO_SECRET_KEY: minio_secret_key

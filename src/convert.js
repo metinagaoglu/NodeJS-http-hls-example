@@ -2,6 +2,8 @@ const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
 const storageService = require('./storage/minio');
 const fs = require('fs');
+const db = require('./database/connection')();
+const Video = require('./models/Video');
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
@@ -22,7 +24,7 @@ ffmpeg('videos/'+filename+'.mp4',{ timeout: 40000 }).addOptions([
 ])
 .output(outputFolder+"/"+filename+".output.m3u8")
 .on('end', () => {
-    fs.readdir(outputFolder,(err,files) => {
+    fs.readdir(outputFolder, (err, files) => {
 
         //handling error
         if (err) {
@@ -32,16 +34,34 @@ ffmpeg('videos/'+filename+'.mp4',{ timeout: 40000 }).addOptions([
         //listing all files using forEach
         files.forEach(function (file) {
             // Do whatever you want to do with the file
-            console.log(file);
-            storageService.uploadFile(file,outputFolder+"/"+file)
-                .then((fileInfo) => {
-                    fs.rmSync(outputFolder,{ recursive: true },() => {
-                        console.log("Removed");
+            const ext = file.split('.').pop();
+
+            const video = new Video({
+                name: file,
+                path: outputFolder + "/" + file,
+                size: 123, //TODO: calculate
+                extension: ext,
+                available: true
+            });
+
+            video.save((err, data) => {
+
+                if (err != null) {
+                    return;
+                }
+                storageService.uploadFile(file, outputFolder + "/" + file)
+                    .then((fileInfo) => {
+                        fs.rmSync(outputFolder, {
+                            recursive: true
+                        }, () => {
+                            console.log("Removed");
+                        })
                     })
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            });
+
         });
 
     });
