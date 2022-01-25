@@ -31,38 +31,64 @@ ffmpeg('videos/'+filename+'.mp4',{ timeout: 40000 }).addOptions([
             return console.log('Unable to scan directory: ' + err.code);
         }
 
+        let videoPartitions = [];
+        let video;
+        const filesCount = files.length-1;
+
         //listing all files using forEach
-        files.forEach(function (file) {
+        files.forEach(function (file,index) {
             // Do whatever you want to do with the file
             const ext = file.split('.').pop();
 
-            const video = new Video({
-                name: file,
-                path: outputFolder + "/" + file,
-                size: 123, //TODO: calculate
-                extension: ext,
-                available: true
+            if(ext == 'm3u8') {
+                video = new Video({
+                    name: file,
+                    path: outputFolder + "/" + file,
+                    size: 123, //TODO: calculate
+                    extension: ext,
+                    available: true
+                });
+            } 
+
+            if(ext == 'ts'){
+                videoPartitions.push({
+                    name: file,
+                    path: outputFolder + "/" + file,
+                    size: 123, //TODO: calculate
+                });
+            }
+
+            storageService.uploadFile(file, outputFolder + "/" + file)
+            .then((fileInfo) => {
+                fs.rmSync(outputFolder, {
+                    recursive: true
+                }, () => {
+                    console.log("Removed");
+                })
+            })
+            .catch((err) => {
+                console.log(err);
             });
 
-            video.save((err, data) => {
+            /**
+             * Callback after all asynchronous forEach
+             */
+            if(index == filesCount) {
 
-                if (err != null) {
-                    return;
-                }
-                storageService.uploadFile(file, outputFolder + "/" + file)
-                    .then((fileInfo) => {
-                        fs.rmSync(outputFolder, {
-                            recursive: true
-                        }, () => {
-                            console.log("Removed");
-                        })
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            });
+                video.partitions = videoPartitions;
+
+                video.save((err, data) => {
+        
+                    if (err != null) {
+                        return;
+                    }
+
+                });
+            }
 
         });
+
+
 
     });
 })

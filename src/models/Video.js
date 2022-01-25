@@ -12,6 +12,13 @@ const VideoSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    partitions:[
+        {
+            name: String,
+            path: String,
+            size: Number
+        }
+    ],
     extension: String,
     available: Boolean
 });
