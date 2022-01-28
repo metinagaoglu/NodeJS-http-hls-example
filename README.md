@@ -35,7 +35,7 @@ Advantages of HLS
 - hls-server
 
 
-## Documentation
+## Articles & Resources
 
 [Fluent ffmpeg](https://www.npmjs.com/package/fluent-ffmpeg) Fluent ffmpeg-API for node.js Build Status
 
@@ -46,14 +46,14 @@ Advantages of HLS
 [HTTP Live Streaming](https://developer.apple.com/documentation/http_live_streaming) HTTP Live Streaming
 
 
-## Screenshots
-
-![App Screenshot](https://github.com/metinagaoglu/NodeJS-http-hls-example/blob/main/images/Screenshot-video-example.png?raw=true)
-
-## Articles & Resources
-
 ### MongoDB
 
 [Multiple-Collections-Versus-Embedded-Documents](https://www.openmymind.net/Multiple-Collections-Versus-Embedded-Documents/#1)
+
 [MongoDB populates](https://mongoosejs.com/docs/populate.html)
+
 [MongoDB best practices](https://www.mongodb.com/basics/best-practices)
+
+## Screenshots
+
+![App Screenshot](https://github.com/metinagaoglu/NodeJS-http-hls-example/blob/main/images/Screenshot-video-example.png?raw=true)
