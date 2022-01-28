@@ -19,6 +19,7 @@ const VideoSchema = new Schema({
             size: Number
         }
     ],
+    allowed_users:[{ type: Schema.Types.ObjectId, ref: 'User' }],
     extension: String,
     available: Boolean
 });

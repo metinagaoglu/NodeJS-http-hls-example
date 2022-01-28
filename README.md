@@ -50,3 +50,9 @@ Advantages of HLS
 
 ![App Screenshot](https://github.com/metinagaoglu/NodeJS-http-hls-example/blob/main/images/Screenshot-video-example.png?raw=true)
 
+## Articles & Resources
+
+### MongoDB
+
+[Multiple-Collections-Versus-Embedded-Documents](https://www.openmymind.net/Multiple-Collections-Versus-Embedded-Documents/#1)
+[MongoDB populates](https://mongoosejs.com/docs/populate.html)
