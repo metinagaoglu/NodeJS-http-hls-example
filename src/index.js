@@ -1,8 +1,20 @@
-const app = require('express')();
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
 const storageService = require('./storage/minio');
 const hls_server = require('./hls/hls-server');
 const db = require('./database/connection')();
 const Video = require('./models/Video');
+
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+app.use(urlencodedParser);
+
+/**
+ * Routers
+ */
+const authRouter = require('./routes/auth');
+
+app.use('/auth',authRouter);
 
 app.get('/', (req,res) => {
     return res.status(200).sendFile(`${__dirname}/view/index.html`);

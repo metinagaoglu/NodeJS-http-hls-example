@@ -22,4 +22,4 @@ const UserSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('video', UserSchema);
+module.exports = mongoose.model('user', UserSchema);

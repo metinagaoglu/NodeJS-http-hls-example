@@ -56,3 +56,4 @@ Advantages of HLS
 
 [Multiple-Collections-Versus-Embedded-Documents](https://www.openmymind.net/Multiple-Collections-Versus-Embedded-Documents/#1)
 [MongoDB populates](https://mongoosejs.com/docs/populate.html)
+[MongoDB best practices](https://www.mongodb.com/basics/best-practices)
