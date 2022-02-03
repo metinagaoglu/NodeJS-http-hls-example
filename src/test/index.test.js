@@ -6,8 +6,13 @@ const server = require('../index');
 
 chai.use(chaiHttp);
 
-describe('Index page',() => {
+describe('NodeJS client pages',() => {
     it('(GET / ) Tests the homepage',(done) => {
-        done();
-    })
-})
+        chai.request(server)
+            .get('/')
+            .end((err,res) => {
+                res.should.have.status(200);
+                done();
+            });
+    });
+});

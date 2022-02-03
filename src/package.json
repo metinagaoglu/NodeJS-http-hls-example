@@ -1,4 +1,9 @@
 {
+  "name": "hls-stream-api-example",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "mocha --exit --recursive"
+  },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "bcrypt": "^5.0.1",

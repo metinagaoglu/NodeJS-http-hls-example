@@ -39,6 +39,8 @@ app.get('/videos',(req,res) => {
     })
 })
 
-const server = app.listen(8000);
+const server = app.listen(8080);
 
 hls_server.run(server);
+
+module.exports = server
