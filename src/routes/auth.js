@@ -5,23 +5,23 @@ const User = require('../models/User');
 const brcypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/register',(req,res)=>{
+router.post('/register', async(req,res)=>{
     //TODO: validation
     const { email,name,surname,password } = req.body;
 
-    brcypt.hash(password,10).then((hash)=>{
-        const user = new User({
-            email,name,surname,password:hash
-        });
+    const hash = await brcypt.hash(password,10);
 
-        const promise = user.save();
-
-        promise.then((data)=>{
-            res.json({status:true,data:data});
-        }).catch((err)=>{
-            res.json({status:false,erro:err});
-        });
+    const user = new User({
+        email,name,surname,password:hash
     });
+    
+    try {
+        const data = await user.save();
+        res.json({status:true,data:data});
+    }catch(err) {
+        res.json({status:false,erro:err});
+    }
+
 });
 
 router.post('/login',async (req,res) => {
