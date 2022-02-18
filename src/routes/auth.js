@@ -5,7 +5,7 @@ const User = require('../models/User');
 const brcypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-router.post('/register', async(req,res)=>{
+router.post('/register',async(req,res) => {
     //TODO: validation
     const { email,name,surname,password } = req.body;
 
@@ -17,14 +17,16 @@ router.post('/register', async(req,res)=>{
     
     try {
         const data = await user.save();
+        res.status(201);
         res.json({status:true,data:data});
     }catch(err) {
+        res.status(422);
         res.json({status:false,erro:err});
     }
 
 });
 
-router.post('/login',async (req,res) => {
+router.post('/login',async(req,res) => {
     //TODO: validation
 
     const {email,password} = req.body;
