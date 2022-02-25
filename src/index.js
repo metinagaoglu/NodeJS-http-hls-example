@@ -9,12 +9,18 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(urlencodedParser);
 
 /**
+ *  Middleware
+ */
+const verifyToken = require('./middleware/verify-token');
+
+/**
  * Routers
  */
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
 
-app.use('/',indexRouter);
+app.use('/api',verifyToken);
+app.use('/api',indexRouter);
 app.use('/auth',authRouter);
 
 // error handler
