@@ -33,6 +33,7 @@ const options = {
 
 app.use(filter(options));
 app.use('/api',verifyToken);
+
 app.use('/api/videos',videoRouter);
 app.use('/',indexRouter);
 app.use('/auth',authRouter);

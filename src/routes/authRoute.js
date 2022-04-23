@@ -1,52 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
-const brcypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const authController = require('../controller/authController');
 
-router.post('/register',async(req,res) => {
-    //TODO: validation
-    const { email,name,surname,password } = req.body;
 
-    const hash = await brcypt.hash(password,10);
+router.post('/register',authController.register);
 
-    const user = new User({
-        email,name,surname,password:hash
-    });
-    
-    try {
-        const data = await user.save();
-        res.status(201);
-        res.json({status:true,data:data});
-    }catch(err) {
-        res.status(422);
-        res.json({status:false,erro:err});
-    }
-
-});
-
-router.post('/login',async(req,res) => {
-    //TODO: validation
-
-    const {email,password} = req.body;
-
-    const user= await User.findOne({ email });
-
-    if(user && (await brcypt.compare(password,user.password))) {
-        // Create a new jwt token
-        const token = jwt.sign({user_id: user._id, email}, "testset",{expiresIn: "1h"});
-
-        user.token = token;
-
-        //TODO: reponse builder
-        res.json({ email, token });
-        return;
-    }
-    res.status(400).json({
-        status: false,
-        message: "Invalid credentials"
-    })
-});
+router.post('/login',authController.login);
 
 module.exports = router;
