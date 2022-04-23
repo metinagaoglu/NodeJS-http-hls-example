@@ -19,6 +19,7 @@ const verifyToken = require('./middleware/verify-token');
  */
 const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
+const videoRouter = require('./routes/videoRoute');
 
 /**
  * By this default using, content-filter checks the request URL for { and $ characters and functions and objects of the html body data property names for $ character coming by GET, POST, PUT and DELETE methods.
@@ -32,7 +33,8 @@ const options = {
 
 app.use(filter(options));
 app.use('/api',verifyToken);
-app.use('/api',indexRouter);
+app.use('/api/videos',videoRouter);
+app.use('/',indexRouter);
 app.use('/auth',authRouter);
 
 // error handler
