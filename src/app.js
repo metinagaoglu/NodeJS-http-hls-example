@@ -17,8 +17,8 @@ const verifyToken = require('./middleware/verify-token');
 /**
  * Routers
  */
-const authRouter = require('./routes/auth');
-const indexRouter = require('./routes/index');
+const authRouter = require('./routes/authRoute');
+const indexRouter = require('./routes/indexRoute');
 const videoRouter = require('./routes/videoRoute');
 
 /**
