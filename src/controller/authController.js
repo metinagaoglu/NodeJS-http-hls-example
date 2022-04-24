@@ -3,6 +3,7 @@ const brcypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.register = async(req, res) => {
+
     const {
         email,
         name,
