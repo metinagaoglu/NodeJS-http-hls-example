@@ -2,7 +2,7 @@ const Video = require('../models/Video');
 const storageService = require('../storage/minio');
 
 exports.listVideoByBucket = async(req,res) => {
-    storageService.listFilesByBucket('videobucket')
+    storageService.listFilesByBucket(req.body.videobucket)
     .then((data) => {
         res.json(data);
     })
