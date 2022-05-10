@@ -12,7 +12,7 @@ app.use(urlencodedParser);
 /**
  *  Middleware
  */
-const verifyToken = require('./middleware/verify-token');
+const verifyToken = require('./middleware/verifyToken');
 
 /**
  * Routers
