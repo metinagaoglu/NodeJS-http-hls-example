@@ -38,7 +38,7 @@ app.use('/api/videos',videoRouter);
 app.use('/',indexRouter);
 app.use('/auth',authRouter);
 
-// error handler
+// global error handler
 app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;

@@ -1,8 +1,9 @@
 const User = require('../models/User');
 const brcypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler');
 
-exports.register = async(req, res) => {
+exports.register = asyncHandler(async(req, res) => {
 
     const {
         email,
@@ -34,9 +35,9 @@ exports.register = async(req, res) => {
             erro: err
         });
     }
-}
+});
 
-exports.login = async (req, res) => {
+exports.login = asyncHandler(async (req, res) => {
 
     const {
         email,
@@ -69,4 +70,4 @@ exports.login = async (req, res) => {
         status: false,
         message: "Invalid credentials"
     })
-}
+});

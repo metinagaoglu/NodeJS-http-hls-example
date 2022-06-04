@@ -1,21 +1,13 @@
 const Video = require('../models/Video');
 const storageService = require('../storage/minio');
+const asyncHandler = require('express-async-handler')
 
-exports.listVideoByBucket = async(req,res) => {
-    storageService.listFilesByBucket(req.body.videobucket)
-    .then((data) => {
-        res.json(data);
-    })
-    .catch((e) => {
-        console.log(e);
-    });
-}
+exports.listVideoByBucket = asyncHandler( async(req,res) => {
+    const videoBuckets = await storageService.listFilesByBucket(req.body.videobucket);
+    res.json(videoBuckets);
+});
 
-exports.listVideos = async(req,res) => {
-    const promise = Video.find({});
-    promise.then((data) => {
-        res.json(data)
-    }).catch((e) => {
-        console.log(e)
-    })
-}
+exports.listVideos = asyncHandler( async(req,res) => {
+    const videos = await Video.find({});
+    res.json(videos);
+});
