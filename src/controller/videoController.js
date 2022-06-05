@@ -11,3 +11,8 @@ exports.listVideos = asyncHandler( async(req,res) => {
     const videos = await Video.find({});
     res.json(videos);
 });
+
+exports.getVideoById = asyncHandler( async(req, res) => {
+    const video = await Video.find({ _id: req.params.id });
+    res.json(video);
+});

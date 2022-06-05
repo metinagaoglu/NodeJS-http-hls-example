@@ -1,18 +1,29 @@
 module.exports = (schema) => {
     return (req, res, next) => {
-        const {
-            error
-        } = schema.validate(req.body);
-        const valid = error == null;
 
-        if (valid) {
-            next();
-        } else {
+        const options = {
+            abortEarly: false,
+            allowUnknown: true,
+            striptUnknown: true,
+            convert: true
+        };
+
+        const {
+            error, value
+        } = schema.validate(req, options);
+
+        if (error) {
+
+            const errorMessage = error.details.map(e => e.message).join(', ');
+            //TODO: throw
             res.status(422)
-                .json({
-                    status: false,
-                    message: error.details
-                })
+            .json({
+                status: false,
+                message: errorMessage
+            })
+
+        } else {
+            next();
         }
     }
 }
